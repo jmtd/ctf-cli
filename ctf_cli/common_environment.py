@@ -132,7 +132,6 @@ def before_all(context):
     # build image if not exist
     try:
         context.image = context.config.userdata['IMAGE']
-        run('docker pull {0}'.format(context.image))
     except KeyError:
         context.image = 'ctf'
         run('docker build -t {0} .'.format(context.image))
