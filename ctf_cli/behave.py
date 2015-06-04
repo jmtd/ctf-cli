@@ -432,10 +432,12 @@ class BehaveRunner(object):
 
         command = [
             'behave',
-            '-D', 'DOCKERFILE={0}'.format(dockerfile),
         ]
         if verbose:
             command.append('-v')
+
+        if dockerfile:
+            command.extend([ '-D', 'DOCKERFILE={0}'.format(dockerfile)])
 
         if junit:
             command.append('--junit')

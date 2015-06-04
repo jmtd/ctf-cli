@@ -102,7 +102,7 @@ def before_all(context):
             return values['stdout']
     context.run = run
 
-    # copy dockerfile
+    # possibly copy dockerfile
     dockerfile = context.config.userdata['DOCKERFILE']
     dockerfile_dir = os.path.dirname(dockerfile)
     # create remote directory

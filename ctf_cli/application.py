@@ -40,11 +40,13 @@ class Application(object):
             cli_args.cli_config_path = CTFCliConfig.find_cli_config(self._execution_dir_path)
         self._cli_conf = CTFCliConfig(cli_args)
 
-        # If no Dockerfile passed on the cli, try to use one from the execution directory
-        if not self._cli_conf.get(CTFCliConfig.GLOBAL_SECTION_NAME, CTFCliConfig.CONFIG_DOCKERFILE):
+        # If no Dockerfile passed on the cli and no image argument is supplied,
+        # try to use one from the execution directory
+        if not self._cli_conf.get(CTFCliConfig.GLOBAL_SECTION_NAME, CTFCliConfig.CONFIG_DOCKERFILE) and \
+           not self._cli_conf.get(CTFCliConfig.GLOBAL_SECTION_NAME, CTFCliConfig.CONFIG_IMAGE):
             local_file = os.path.join(self._execution_dir_path, 'Dockerfile')
             if not os.path.isfile(local_file):
-                raise CTFCliError("No Dockerfile passed on the cli and no Dockerfile "
+                raise CTFCliError("No image or Dockerfile passed on the cli, and no Dockerfile "
                                   "is present in the current directory!")
             logger.debug("Using Dockerfile from the current directory.")
             self._cli_conf.set(CTFCliConfig.GLOBAL_SECTION_NAME, CTFCliConfig.CONFIG_DOCKERFILE, local_file)
